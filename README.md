@@ -41,18 +41,23 @@ Tested on:
 - Legion 5 (Pro) 2020-2024
 - Ideapad Gaming 3 2021-2024
 - LOQ 2023-2025
+- LOQ 15IRX9
 
 **Note:** Legion 7(i) and all models with white-only backlights are currently not supported.
 
 ## Building from Source
 Requires Rust and Git.
 
-1. Clone the repository:
+1. Install dependencies
+
+   Please refer to the [Fedora installation guide](docs/Fedora-Guide.md) for Fedora Workstation setup.
+
+2. Clone the repository:
    ```sh
    git clone https://github.com/KnightroParth/legion-keyboard-custom.git
    ```
 
-2. Build using cargo:
+3. Build using cargo:
    ```sh
    cargo build --release
    ```
