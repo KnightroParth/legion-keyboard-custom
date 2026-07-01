@@ -1,22 +1,3 @@
-# Release Binary
-
-If you do not want to build from source, download the prebuilt binary from [Releases](https://github.com/KnightroParth/legion-keyboard-custom/releases)
-
-1. Make the binary executable:
-    ```bash
-    chmod +x legion-kb-rgb
-    ```
-
-2. (Optional) Move it into your PATH:
-    ```bash
-    sudo mv legion-kb-rgb /usr/local/bin/
-    sudo chmod +x /usr/local/bin/legion-kb-rgb
-    ```
-
-3. Open a fresh terminal, then run `legion-kb-rgb` or `legion-kb-rgb -g`. If the command is not found, verify it exists with `ls /usr/local/bin/ | grep "legion-kb-rgb"`.
-
-4. If that still does not work, follow [Building from source](#building-from-source).
-
 # Building From Source
 
 This guide documents all dependencies and steps required to build `legion-kb-rgb` from source on Fedora Linux. Most of this applies to other distros too, with package manager substitutions.
@@ -226,4 +207,4 @@ sudo udevadm trigger
 | `Failed to find a valid keyboard` | Set up udev rules as described above |
 | `cp: not writing through dangling symlink` | Remove stale symlink with `sudo rm` before running `make install` |
 
---- 
+---
