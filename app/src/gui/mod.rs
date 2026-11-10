@@ -242,7 +242,7 @@ impl eframe::App for App {
         });
 
         CentralPanel::default()
-            .frame(Frame::new().inner_margin(self.theme.spacing.large).fill(Color32::from_gray(26)))
+            .frame(Frame::new().inner_margin(self.theme.spacing.large).fill(self.theme.glass_fill()))
             .show(ctx, |ui| {
                 ui.style_mut().spacing.item_spacing = Vec2::splat(self.theme.spacing.large);
                 self.show_ui_elements(ctx, ui);
@@ -349,7 +349,7 @@ impl App {
                 self.show_effect_ui(ui);
 
                 self.saved_items
-                    .show(ctx, ui, &mut self.current_profile, &mut self.loaded_effect, &self.theme.spacing, &mut self.state_changed);
+                    .show(ctx, ui, &mut self.current_profile, &mut self.loaded_effect, &self.theme, &mut self.state_changed);
             });
 
             ui.vertical_centered_justified(|ui| {
@@ -359,8 +359,9 @@ impl App {
                 }
 
                 Frame {
-                    corner_radius: CornerRadius::same(6),
-                    fill: Color32::from_gray(20),
+                    corner_radius: CornerRadius::same(self.theme.glass_radius() as u8),
+                    fill: self.theme.glass_fill(),
+                    stroke: self.theme.glass_stroke(),
                     ..Frame::default()
                 }
                 .show(ui, |ui| {

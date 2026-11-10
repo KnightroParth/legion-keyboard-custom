@@ -1,4 +1,5 @@
 use std::{
+    collections::VecDeque,
     sync::{
         atomic::Ordering,
         Arc,
@@ -65,7 +66,7 @@ pub fn play(manager: &mut Inner, profile: &Profile, sensitivity: f32, random_col
     }
 
     let mut last_update = Instant::now();
-    let mut vol_history = Vec::with_capacity(30);
+    let mut vol_history: VecDeque<f32> = VecDeque::with_capacity(30);
     let mut beat_cooldown = Instant::now();
 
     while !stop_signals.manager_stop_signal.load(Ordering::SeqCst) {
@@ -76,8 +77,8 @@ pub fn play(manager: &mut Inner, profile: &Profile, sensitivity: f32, random_col
         let current_volume = if let Ok(v) = volume.lock() { *v } else { 0.0 };
         
         // Rolling average for beat detection
-        vol_history.push(current_volume);
-        if vol_history.len() > 30 { vol_history.remove(0); }
+        vol_history.push_back(current_volume);
+        if vol_history.len() > 30 { vol_history.pop_front(); }
         let avg_vol: f32 = vol_history.iter().sum::<f32>() / vol_history.len() as f32;
 
         // Peak detection (Beat)

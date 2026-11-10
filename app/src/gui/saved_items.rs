@@ -1,9 +1,9 @@
-use eframe::egui::{Color32, Context, CornerRadius, Frame, RichText, ScrollArea, Ui};
+use eframe::egui::{Context, CornerRadius, Frame, RichText, ScrollArea, Ui};
 use egui_modal::Modal;
 
 use crate::manager::{custom_effect::CustomEffect, profile::Profile};
 
-use super::{style::SpacingStyle, LoadedEffect, State};
+use super::{style::Theme, LoadedEffect, State};
 
 #[derive(Clone)]
 pub struct SavedItems {
@@ -122,17 +122,18 @@ impl SavedItems {
         }
     }
 
-    pub fn show(&mut self, ctx: &Context, ui: &mut Ui, current_profile: &mut Profile, loaded_effect: &mut LoadedEffect, spacing: &SpacingStyle, changed: &mut bool) {
+    pub fn show(&mut self, ctx: &Context, ui: &mut Ui, current_profile: &mut Profile, loaded_effect: &mut LoadedEffect, theme: &Theme, changed: &mut bool) {
         ui.scope(|ui: &mut Ui| {
-            ui.style_mut().spacing.item_spacing = spacing.default;
+            ui.style_mut().spacing.item_spacing = theme.spacing.default;
 
             ui.horizontal(|ui| {
                 self.show_header(ctx, ui, current_profile, loaded_effect);
             });
 
             Frame {
-                corner_radius: CornerRadius::same(6),
-                fill: Color32::from_gray(20),
+                corner_radius: CornerRadius::same(theme.glass_radius() as u8),
+                fill: theme.glass_fill(),
+                stroke: theme.glass_stroke(),
                 ..Frame::default()
             }
             .show(ui, |ui| {
