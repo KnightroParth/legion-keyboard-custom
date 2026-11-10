@@ -6,6 +6,12 @@ use eframe::{
 pub struct Theme {
     pub spacing: SpacingStyle,
     pub visuals: Visuals,
+
+    // Liquid glass primitives
+    pub glass_color: Color32,
+    pub accent_color: Color32,
+    pub glass_corner_radius: f32,
+    pub glass_blur: f32,
 }
 
 impl Default for Theme {
@@ -19,7 +25,35 @@ impl Default for Theme {
                 },
                 ..Visuals::default()
             },
+
+            // Glass look defaults (subtle, translucent)
+            glass_color: Color32::from_rgba_unmultiplied(28, 32, 40, 180),
+            accent_color: Color32::from_rgb(90, 160, 220),
+            glass_corner_radius: 8.0,
+            glass_blur: 10.0,
         }
+    }
+}
+
+impl Theme {
+    // Fill color for glass panels
+    pub fn glass_fill(&self) -> Color32 {
+        self.glass_color
+    }
+
+    // Stroke used for glass edges / outlines
+    pub fn glass_stroke(&self) -> Stroke {
+        Stroke::new(1.0, self.accent_color)
+    }
+
+    // Corner radius for glass frames
+    pub fn glass_radius(&self) -> f32 {
+        self.glass_corner_radius
+    }
+
+    // Suggested blur radius (for later integration with custom painters)
+    pub fn glass_blur_radius(&self) -> f32 {
+        self.glass_blur
     }
 }
 

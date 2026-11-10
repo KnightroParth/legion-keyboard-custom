@@ -16,3 +16,7 @@ things.md
 *.json
 !vcpkg.json
 .history
+*.zip
+
+# Visual Studio
+.vs
