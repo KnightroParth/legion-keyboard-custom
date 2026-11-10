@@ -21,13 +21,13 @@ jobs:
             artifact_name: target/release/legion-kb-rgb
             asset_name: legion-kb-rgb-linux
             triplet: x64-linux
-            vcpkgCommitId: 'b12aa38a44a29bd8461404f2514e4c7cf00e1fc5'
+            vcpkgCommitId: '5d4a3dc90c0b3773f3bac81bf41297b54328f471'
           - name: windows
             os: windows-latest
             artifact_name: target/release/legion-kb-rgb.exe
             asset_name: legion-kb-rgb-windows
             triplet: x64-windows-static
-            vcpkgCommitId: 'b12aa38a44a29bd8461404f2514e4c7cf00e1fc5'
+            vcpkgCommitId: '5d4a3dc90c0b3773f3bac81bf41297b54328f471'
 
     env:
       VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}

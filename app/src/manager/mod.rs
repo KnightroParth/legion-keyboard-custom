@@ -195,8 +195,8 @@ impl Inner {
                 swipe::play(self, profile, mode, clean_with_black);
             }
             Effects::Swipe { mode, clean_with_black } => swipe::play(self, profile, mode, clean_with_black),
-            Effects::Ripple => ripple::play(self, profile),
-            Effects::RippleLit => ripple::play(self, profile),
+            Effects::Ripple => ripple::play(self, profile, false),
+            Effects::RippleLit => ripple::play(self, profile, true),
             Effects::AudioVisualizer { sensitivity, random_colors } => audio::play(self, profile, sensitivity, random_colors),
             Effects::SystemMonitor => system_monitor::play(self, profile),
             Effects::WpmHeatMap => wpm::play(self, profile),

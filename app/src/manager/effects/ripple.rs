@@ -23,7 +23,7 @@ enum RippleMove {
     Off,
 }
 
-pub fn play(manager: &mut Inner, p: &Profile) {
+pub fn play(manager: &mut Inner, p: &Profile, keep_lit: bool) {
     // Welcome to the definition of i-don't-know-what-im-doing
     let stop_signals = manager.stop_signals.clone();
 
@@ -109,16 +109,28 @@ pub fn play(manager: &mut Inner, p: &Profile) {
 
         let rgb_array = p.rgb_array();
         let mut final_arr: [u8; 12] = [0; 12];
-        // Initialize with base color
-        for i in (0..12).step_by(3) {
-            final_arr[i] = p.base_color[0];
-            final_arr[i + 1] = p.base_color[1];
-            final_arr[i + 2] = p.base_color[2];
+
+        if keep_lit {
+            // RippleLit: inactive zones stay at their configured zone color
+            final_arr.copy_from_slice(&rgb_array);
+        } else {
+            // Ripple: inactive zones use the base color (typically dark/off)
+            for i in (0..12).step_by(3) {
+                final_arr[i] = p.base_color[0];
+                final_arr[i + 1] = p.base_color[1];
+                final_arr[i + 2] = p.base_color[2];
+            }
         }
 
         for (i, ripple_move) in zone_state.iter().enumerate() {
             if ripple_move != &RippleMove::Off {
-                final_arr[(i * 3)..((i * 3) + 3)].copy_from_slice(&rgb_array[(i * 3)..((i * 3) + 3)]);
+                if keep_lit {
+                    // RippleLit: flash white on ripple to stand out from zone color
+                    final_arr[(i * 3)..((i * 3) + 3)].copy_from_slice(&[255, 255, 255]);
+                } else {
+                    // Ripple: show zone color on ripple
+                    final_arr[(i * 3)..((i * 3) + 3)].copy_from_slice(&rgb_array[(i * 3)..((i * 3) + 3)]);
+                }
             }
         }
 

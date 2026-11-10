@@ -65,11 +65,13 @@ pub struct LoadedEffect {
     effect: CustomEffect,
 }
 
-impl LoadedEffect {
-    pub fn default() -> Self {
+impl Default for LoadedEffect {
+    fn default() -> Self {
         Self::none()
     }
+}
 
+impl LoadedEffect {
     pub fn none() -> Self {
         Self {
             state: State::None,
