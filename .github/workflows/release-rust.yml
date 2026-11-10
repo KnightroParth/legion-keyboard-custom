@@ -72,6 +72,14 @@ jobs:
       #   run: echo "VCPKG_ROOT=$(echo $VCPKG_INSTALLATION_ROOT)" >> $GITHUB_ENV
       #   shell: bash
 
+      - name: Patch webm-sys for newer GCC (missing cstdint)
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          # webm-sys uses uint32_t/uint64_t without including <cstdint>,
+          # which fails on newer GCC. Inject the include via CXXFLAGS.
+          echo "CXXFLAGS=-include cstdint" >> $GITHUB_ENV
+
       - name: Build
         shell: bash
         run: cargo build --release --verbose
