@@ -89,10 +89,13 @@ fn process_frame(frame: Frame, dimensions: ScreenDimensions, resizer: &mut Resiz
         unreachable!("Attempted to extract vec from Texture variant in the Ambient effect");
     };
 
-    let frame_vec = buf.data().to_vec();
-    // for rgba in frame_vec.chunks_exact_mut(4) {
-    //     rgba[3] = 255;
-    // }
+    let mut frame_vec = buf.data().to_vec();
+    // Force alpha to fully opaque — screen-capture on Windows often
+    // delivers A=0 which causes photon_rs saturation math to produce
+    // incorrect colours (e.g. white → red).
+    for pixel in frame_vec.chunks_exact_mut(4) {
+        pixel[3] = 255;
+    }
 
     let src_image = fr::images::Image::from_vec_u8(dimensions.src.0, dimensions.src.1, frame_vec, fr::PixelType::U8x4).unwrap();
 
